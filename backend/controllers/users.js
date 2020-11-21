@@ -1,5 +1,9 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+require('dotenv').config();
+
+const { JWT_SECRET } = process.env;
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -8,7 +12,7 @@ module.exports.createUser = (req, res, next) => {
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name, about, avatar, email, hash,
+      name, about, avatar, email, password: hash,
     }))
     .then((user) => res.send({ data: user }))
     .catch((err) => next(err));
@@ -73,5 +77,41 @@ module.exports.updateAvatar = (req, res, next) => {
       } else {
         next(err);
       }
+    });
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+  User.findUserByCredentials({ email, password })
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET);
+      res.cookie('jwt', token, {
+        maxAge: 7 * 24 * 3600 * 1000, // jwt токен сроком на 1 неделю
+        httpOnly: true,
+      });
+      res.send({ message: 'Всё верно!' });
+    })
+    .catch((err) => {
+      res
+        .status(401)
+        .send({ message: err.message });
+    });
+};
+
+module.exports.getCurrentUser = (req, res, next) => {
+  const { _id } = req.user;
+  User.findById(_id)
+    .then((user) => {
+      if (user === null) {
+        res.status(404).send({ message: 'Нет пользователя с таким id' });
+      } else {
+        res.send(user);
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: 'Ошибочный формат id' });
+      }
+      next(err);
     });
 };
