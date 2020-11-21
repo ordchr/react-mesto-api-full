@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const bodyParser = require('body-parser');
+const { celebrate, Joi } = require('celebrate');
+
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 const auth = require('./middlewares/auth');
@@ -22,8 +24,23 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 const app = express();
 app.use(bodyParser.json());
-app.post('/signin', login);
-app.post('/signup', createUser);
+
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
+  }),
+}), login);
+
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+    avatar: Joi.string(),
+  }),
+}), createUser);
 
 app.use(auth);
 app.use(cookieParser(COOKIE_SECRET));
