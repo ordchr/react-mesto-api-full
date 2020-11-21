@@ -6,6 +6,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
+const auth = require('./middlewares/auth');
 
 const { login, createUser } = require('./controllers/users');
 
@@ -20,17 +21,12 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 const app = express();
-app.use(cookieParser(COOKIE_SECRET));
 app.use(bodyParser.json());
 app.post('/signin', login);
 app.post('/signup', createUser);
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5f9b79eec6eb0a7987d804d1',
-  };
 
-  next();
-});
+app.use(auth);
+app.use(cookieParser(COOKIE_SECRET));
 app.use('/users', users);
 app.use('/cards', cards);
 app.use((req, res) => {
