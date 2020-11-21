@@ -1,0 +1,7 @@
+.page__section {
+  width: calc(882/12.8*1vw);
+  max-width: 882px;
+  min-width: 300px;
+  margin: 0 auto 0;
+}
+

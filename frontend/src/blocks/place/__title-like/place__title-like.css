@@ -1,0 +1,20 @@
+.place__title-like {
+  background-image: url(../../../images/like.svg);
+  background-size: contain;
+  background-position: center;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  border: none;
+  width: 22px;
+  height: 18px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.place__title-like:hover {
+  opacity: 0.6;
+}
+
+.place__title-like:focus {
+  outline: none;
+}

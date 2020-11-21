@@ -1,0 +1,39 @@
+.profile__photo {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background-size: contain;
+  position: relative;
+  cursor: pointer;
+}
+
+.profile__photo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.6);
+  opacity: 0;
+}
+
+.profile__photo:hover::before, .profile__photo:hover:after {
+  opacity: 1;
+}
+
+
+.profile__photo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(../../../images/edit-button-avatar.svg);
+  background-size: 26px 26px;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0;
+}
+

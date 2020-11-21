@@ -1,0 +1,8 @@
+.info-tooltip__message {
+  color: #000;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29px;
+  white-space: pre-line;
+  margin-top: 32px;
+}

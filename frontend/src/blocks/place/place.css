@@ -1,0 +1,25 @@
+@import url(./__image/place__image.css);
+@import url(./__title/place__title.css);
+@import url(./__title-text/place__title-text.css);
+@import url(./__title-like-block/place__title-like-block.css);
+@import url(./__title-like/place__title-like.css);
+@import url(./__title-like-count/place__title-like-count.css);
+@import url(./__title-like/_selected/place__title-like_selected.css);
+@import url(./__image-del/place__image-del.css);
+@import url(./__image-del/_hidden/place__image-del_hidden.css);
+
+
+.place {
+  color: #000;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /*width: 282/12.8*1vw;*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*width: 282px;*/
+  /*min-height: 361px;*/
+  position: relative;
+}

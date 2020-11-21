@@ -1,0 +1,4 @@
+.header__panel {
+  display: flex;
+  justify-content: space-around;
+}

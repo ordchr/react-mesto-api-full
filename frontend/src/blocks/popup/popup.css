@@ -1,0 +1,35 @@
+@import url(./__container/popup__container.css);
+@import url(./__header/popup__header.css);
+@import url(./__header/_confirm/popup__header_confirm.css);
+@import url(./__input/popup__input.css);
+@import url(./__input//_type_error/popup__input_type_error.css);
+@import url(./__input/_full-name/popup__input_full-name.css);
+@import url(./__input/_profession/popup__input_profession.css);
+@import url(./__button-save/popup__button-save.css);
+@import url(./__button-yes/popup__button-yes.css);
+@import url(./__button-save/_inactive/popup__button-save_inactive.css);
+@import url(./__button-close/popup__button-close.css);
+@import url(./_opened/popup_opened.css);
+@import url(./_closed/popup_closed.css);
+@import url(./__form/popup__form.css);
+@import url(./__input-error/popup__input-error.css);
+@import url(./__input-error/_active/popup__input-error_active.css);
+
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.5);
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: visibility 0.2s, opacity 0.2s linear;
+  -moz-transition: visibility 0.2s, opacity 0.2s linear;
+  -o-transition: visibility 0.2s, opacity 0.2s linear;
+  transition: visibility 0.2s, opacity 0.2s linear;
+  display: flex;
+
+}

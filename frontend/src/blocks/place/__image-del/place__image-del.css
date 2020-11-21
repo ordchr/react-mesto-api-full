@@ -1,0 +1,23 @@
+.place__image-del {
+  background-image: url(../../../images/del-icon.svg);
+  background-size: contain;
+  background-position: center;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  border: none;
+  width: 18px;
+  height: 19px;
+  background-color: transparent;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+}
+
+.place__image-del:hover {
+  opacity: 0.6;
+}
+
+.place__image-del:focus {
+  outline: none;
+}

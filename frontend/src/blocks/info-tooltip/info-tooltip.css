@@ -1,0 +1,21 @@
+@import url(./__container/info-tooltip__container.css);
+@import url(./__picture/info-tooltip__picture.css);
+@import url(./__picture/_success/info-tooltip__picture_success.css);
+@import url(./__picture/_failed/info-tooltip__picture_failed.css);
+@import url(./__message/info-tooltip__message.css);
+@import url(./_opened/info-tooltip_opened.css);
+@import url(./_closed/info-tooltip_closed.css);
+@import url(./__button-close/info-tooltip__button-close.css);
+
+.info-tooltip {
+  position: fixed;
+  background-color: rgba(0,0,0, 0.6);
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

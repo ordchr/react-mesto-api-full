@@ -1,0 +1,12 @@
+.sign__link-sign-in {
+  font-weight: 400;
+  line-height: 17px;
+  font-size: 14px;
+  font-style: normal;
+  color: #fff;
+  text-decoration: inherit;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  margin: 15px auto 0;
+}

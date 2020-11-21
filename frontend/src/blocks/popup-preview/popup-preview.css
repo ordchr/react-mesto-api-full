@@ -1,0 +1,21 @@
+@import url(./__container/popup-preview__container.css);
+@import url(./__image/popup-preview__image.css);
+@import url(./__button-close/popup-preview__button-close.css);
+@import url(./__description/popup-preview__description.css);
+
+.popup-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.9);
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: visibility 0.2s, opacity 0.2s linear;
+  -moz-transition: visibility 0.2s, opacity 0.2s linear;
+  -o-transition: visibility 0.2s, opacity 0.2s linear;
+  transition: visibility 0.2s, opacity 0.2s linear;
+  display: flex;
+}
