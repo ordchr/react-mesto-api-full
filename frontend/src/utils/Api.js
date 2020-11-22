@@ -82,7 +82,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'http://172.16.33.33:9001',
+  baseUrl: process.env.REACT_APP_API_BASEURL,
 });
 
 export default api;
