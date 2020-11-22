@@ -55,14 +55,14 @@ app.use(requestLogger);
 //   }, 0);
 // });
 
-app.post('/signin', celebrate({
+app.post('/api/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
 }), login);
 
-app.post('/signup', celebrate({
+app.post('/api/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
@@ -74,8 +74,8 @@ app.post('/signup', celebrate({
 
 app.use(auth);
 app.use(cookieParser(COOKIE_SECRET));
-app.use('/users', users);
-app.use('/cards', cards);
+app.use('/api/users', users);
+app.use('/api/cards', cards);
 app.use((req, res) => {
   res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
 });
