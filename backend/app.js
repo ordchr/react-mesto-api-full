@@ -26,8 +26,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 const whitelist = [
-  'http://172.16.33.33:9000',
-  'https://ordchr.students.nomoreparties.co',
+  'http://172.16.33.33:9000/api',
+  'https://ordchr.students.nomoreparties.co/api',
 ];
 
 const corsOptions = {
