@@ -15,7 +15,7 @@ router.get('/:id', celebrate({
 router.patch('/me', updateProfile);
 router.patch('/me/avatar', celebrate({
   body: Joi.object().keys({
-    link: Joi.string().uri(),
+    avatar: Joi.string().uri(),
   }),
 }), updateAvatar);
 

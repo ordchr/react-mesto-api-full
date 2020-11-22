@@ -46,7 +46,7 @@ class Auth {
 }
 
 const auth = new Auth({
-  baseUrl: 'https://auth.nomoreparties.co' 
+  baseUrl: 'http://172.16.33.33:9001'
 });
 
 export default auth;

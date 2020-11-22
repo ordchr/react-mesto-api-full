@@ -1,17 +1,14 @@
 class Api {
   constructor({baseUrl, headersAuthorization}) {
     this._baseUrl = baseUrl;
-    this._headersAuthorization = headersAuthorization;
     this._call = this._call.bind(this);
   }
-
-  // другие методы работы с API
 
   _call(method, action, body) {
     const requestData = {
       method: method,
       headers: {
-        authorization: this._headersAuthorization,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
         'Content-Type': 'application/json'
       },
     };
@@ -49,11 +46,11 @@ class Api {
   }
 
   likeCard(cardId) {
-    return this._call('PUT', `cards/likes/${cardId}`);
+    return this._call('PUT', `cards/${cardId}/likes`);
   }
 
   dislikeCard(cardId) {
-    return this._call('DELETE', `cards/likes/${cardId}`);
+    return this._call('DELETE', `cards/${cardId}/likes`);
   }
 
   updateAvatar(body) {
@@ -71,8 +68,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14', 
-  headersAuthorization: 'e334a560-7923-4c10-ad97-03986e985b68'
+  baseUrl: 'http://172.16.33.33:9001',
 });
 
 export default api;

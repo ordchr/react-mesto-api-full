@@ -51,7 +51,7 @@ module.exports.updateProfile = (req, res, next) => {
     { new: true },
   )
     .orFail(new Error('Not found'))
-    .then((userData) => res.send({ data: userData }))
+    .then((userData) => res.send(userData))
     .catch((err) => {
       if (err.message === 'Not found') {
         res.status(404).send({ message: 'Нет пользователя с таким id' });
@@ -70,7 +70,7 @@ module.exports.updateAvatar = (req, res, next) => {
     { new: true },
   )
     .orFail(new Error('Not found'))
-    .then((userData) => res.send({ data: userData }))
+    .then((userData) => res.send(userData))
     .catch((err) => {
       if (err.message === 'Not found') {
         res.status(404).send({ message: 'Нет пользователя с таким id' });
@@ -84,12 +84,12 @@ module.exports.login = (req, res) => {
   const { email, password } = req.body;
   User.findUserByCredentials({ email, password })
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET);
-      res.cookie('jwt', token, {
-        maxAge: 7 * 24 * 3600 * 1000, // jwt токен сроком на 1 неделю
-        httpOnly: true,
-      });
-      res.send({ message: 'Всё верно!' });
+      const jwtToken = jwt.sign({ _id: user._id }, JWT_SECRET);
+      // res.cookie('jwt', token, {
+      //   maxAge: 7 * 24 * 3600 * 1000, // jwt токен сроком на 1 неделю
+      //   httpOnly: true,
+      // });
+      res.send({ token: jwtToken });
     })
     .catch((err) => {
       res

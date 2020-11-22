@@ -37,13 +37,21 @@ function App() {
 
 
   React.useEffect(() => {
-    api.getUserInfo()
-      .then(userInfo => {
-        setCurrentUser(userInfo);
-        console.log('get user info');
-      })
-
-    tokenCheck();
+    if (localStorage.getItem('jwt')){
+      auth.validateToken(localStorage.getItem('jwt'))
+        .then(res => {
+          setLoggedIn(true);
+          setEmail(res["email"]);
+          setCurrentUser(res);
+          history.push('/');
+        })
+        .catch(err => {
+          console.log(`Ошибка запроса к API. Код ошибки: ${err.status}`);
+          if (err.status === 401) {
+            console.log('Токен не передан или передан не в том формате. Переданный токен не корректен');
+          }
+        });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -64,7 +72,7 @@ function App() {
   }, []);
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some( i => i._id === currentUser._id);
+    const isLiked = card.likes.some( i => i === currentUser._id);
     api.changeLikeStatus(card._id, !isLiked)
       .then(newCard => {
         const newCards = cards.map(c => c._id === card._id ? newCard : c)
@@ -111,7 +119,6 @@ function App() {
   }
 
   function handleUpdateUser(userInfo) {
-    console.log(userInfo);
     api.updateUserInfo(userInfo)
       .then(userInfo => {
         setCurrentUser(userInfo);
@@ -136,7 +143,6 @@ function App() {
   function handleAddPlaceSubmit (newCard) {
     api.addCard(newCard)
       .then(newCard => {
-        console.log(newCard);
         setCards([...cards, newCard]);
         closeAllPopups();
       })
@@ -164,7 +170,6 @@ function App() {
   }
 
   function handleSignIn(authData) {
-    console.log(authData);
     auth.login(authData)
       .then((resLogin) => {
         setLoggedIn(true);
@@ -182,24 +187,6 @@ function App() {
         setIsInfoTooltipSuccess(false);
         setIsInfoTooltipOpen(true);
       });
-  }
-
-  function tokenCheck () {
-    if (localStorage.getItem('jwt')){
-      const jwt = localStorage.getItem('jwt');
-      auth.validateToken(jwt)
-        .then(res => {
-          setLoggedIn(true);
-          setEmail(res["data"]["email"]);
-          history.push('/');
-        })
-        .catch(err => {
-          console.log(`Ошибка запроса к API. Код ошибки: ${err.status}`);
-          if (err.status === 401) {
-            console.log('Токен не передан или передан не в том формате. Переданный токен не корректен');
-          }
-        });
-    }
   }
 
   function onSignOut () {
@@ -238,7 +225,6 @@ function App() {
           isOpen={isInfoTooltipOpen}
           isSuccess={isInfoTooltipSuccess}
           onCloseHangle={() => {
-            console.log('in close Hangle');
             setIsInfoTooltipOpen(false);
           }}
         />

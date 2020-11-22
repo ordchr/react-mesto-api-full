@@ -3,14 +3,14 @@ const Card = require('../models/card');
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
-  Card.create({ name, link, owner: '5f9504089942222ccb04b5ee' })
-    .then((card) => res.send({ data: card }))
+  Card.create({ name, link, owner: req.user._id })
+    .then((card) => res.send(card))
     .catch((err) => next(err));
 };
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((users) => res.send(users))
+    .then((cards) => res.send(cards))
     .catch((err) => next(err));
 };
 

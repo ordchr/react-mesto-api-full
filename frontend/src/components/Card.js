@@ -20,13 +20,13 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
 
   const {name, link, likes} = card;
 
-  const isOwn = card.owner._id === currentUser._id;
+  const isOwn = card.owner === currentUser._id;
 
   const cardDeleteButtonClassName = (
     `place__image-del ${isOwn ? '' : 'place__image-del_hidden'}`
   );
 
-  const isLiked = card.likes.some( i => i._id === currentUser._id);
+  const isLiked = card.likes.some( i => i === currentUser._id);
   const cardLikeButtonClassName = `place__title-like ${isLiked ? 'place__title-like_selected' : ''}`;
 
   return (
