@@ -84,7 +84,11 @@ module.exports.login = (req, res) => {
   const { email, password } = req.body;
   User.findUserByCredentials({ email, password })
     .then((user) => {
-      const jwtToken = jwt.sign({ _id: user._id }, JWT_SECRET);
+      const jwtToken = jwt.sign(
+        { _id: user._id },
+        JWT_SECRET,
+        { expiresIn: '7d' },
+      );
       // res.cookie('jwt', token, {
       //   maxAge: 7 * 24 * 3600 * 1000, // jwt токен сроком на 1 неделю
       //   httpOnly: true,
