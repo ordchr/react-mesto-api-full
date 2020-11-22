@@ -18,9 +18,16 @@ module.exports.getCard = (req, res) => {
   res.send(req.card);
 };
 
-module.exports.deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.card._id)
-    .then((card) => res.send(card));
+module.exports.deleteCard = (req, res, next) => {
+  Card.findOneAndDelete({ _id: req.card._id, owner: req.user._id })
+    .then((card) => {
+      if (!card) {
+        next(new Error('Not owner for card'));
+      } else {
+        res.send(card);
+      }
+    })
+    .catch((err) => next(err));
 };
 
 module.exports.likeCard = (req, res) => {
