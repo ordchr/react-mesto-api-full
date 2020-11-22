@@ -26,23 +26,33 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 const whitelist = [
-  'http://172.16.33.33:9000/api',
-  'https://ordchr.students.nomoreparties.co/api',
+  'http://172.16.33.33:9000',
+  'https://ordchr.students.nomoreparties.co',
 ];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+// };
+
+const corsOptionsDelegate = (req, callback) => {
+  let corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true };// reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false };// disable CORS for this request
+  }
+  callback(null, corsOptions);// callback expects two parameters: error and options
 };
 
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptionsDelegate));
 
 app.options('*', cors());
 
