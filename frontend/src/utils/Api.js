@@ -65,6 +65,20 @@ class Api {
     }
   }
 
+  register(body) {
+    return this._call('POST', 'signup', body);
+  }
+
+  login(body) {
+    return this._call('POST', 'signin', body);
+  }
+
+  validateToken(jwt) {
+    return this._call('GET', 'users/me', "", {
+      "Authorization" : `Bearer ${jwt}`
+    });
+  }
+
 }
 
 const api = new Api({

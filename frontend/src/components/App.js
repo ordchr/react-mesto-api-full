@@ -12,7 +12,6 @@ import Register from './Register';
 import Login from './Login';
 import { Route, Switch } from 'react-router-dom';
 import { useHistory } from "react-router";
-import auth from '../utils/Auth';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 
@@ -38,7 +37,7 @@ function App() {
 
   React.useEffect(() => {
     if (localStorage.getItem('jwt')){
-      auth.validateToken(localStorage.getItem('jwt'))
+      api.validateToken(localStorage.getItem('jwt'))
         .then(res => {
           setLoggedIn(true);
           setEmail(res["email"]);
@@ -153,7 +152,7 @@ function App() {
 
   function handleSignUp(authData) {
 
-    auth.register(authData)
+    api.register(authData)
       .then( _ => {
         setIsInfoTooltipSuccess(true);
         setIsInfoTooltipOpen(true);
@@ -170,7 +169,7 @@ function App() {
   }
 
   function handleSignIn(authData) {
-    auth.login(authData)
+    api.login(authData)
       .then((resLogin) => {
         setLoggedIn(true);
         localStorage.setItem('jwt', resLogin["token"]);
