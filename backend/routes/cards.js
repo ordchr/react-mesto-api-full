@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const { joiValidateUrl } = require('../modules/utils');
 
 const {
   createCard, getCards, getCard, likeCard, dislikeCard, deleteCard,
@@ -11,7 +12,7 @@ router.get('/', getCards);
 router.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    link: Joi.string().uri(),
+    link: Joi.string().custom(joiValidateUrl, 'custom validate URL'),
   }),
 }), createCard);
 router.get('/:cardId', celebrate({

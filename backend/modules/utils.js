@@ -16,6 +16,15 @@ const populateCard = (req, res, next, cardId) => Card.findById(cardId)
     next(err);
   });
 
+const joiValidateUrl = (value) => {
+  if (!/https?:\/\/[.\w-]+\.\w+[\w-/]+#?/gm.test(value)) {
+    throw new Error('Wrong URL');
+  }
+
+  return value;
+};
+
 module.exports = {
   populateCard,
+  joiValidateUrl,
 };
