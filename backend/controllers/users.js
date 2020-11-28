@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { BadRequestError, NotFoundError, AlreadyExistsError } = require('../modules/exceptions');
 require('dotenv').config();
 
 const { JWT_SECRET } = process.env;
@@ -22,7 +23,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
-        new Error('Такой email уже зарегистрирован');
+        next(new AlreadyExistsError('Такой email уже зарегистрирован'));
       } else {
         next(err);
       }
@@ -37,17 +38,19 @@ module.exports.getUsers = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
   const { id } = req.params;
+  console.log(id);
   User.findById(id)
     .then((user) => {
+      console.log(123);
       if (user === null) {
-        new Error('Нет пользователя с таким id');
+        throw new NotFoundError('Нет пользователя с таким id');
       } else {
         res.send(user);
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        new Error('Ошибочный формат id');
+        next(new BadRequestError('Ошибочный формат id'));
       }
       next(err);
     });
@@ -60,11 +63,11 @@ module.exports.updateProfile = (req, res, next) => {
     req.user._id,
     { name, about },
   )
-    .orFail(new Error('Not found'))
+    .orFail(new NotFoundError('Нет пользователя с таким id'))
     .then((userData) => res.send(userData))
     .catch((err) => {
       if (err.message === 'Not found') {
-        new Error('Нет пользователя с таким id');
+        next(new NotFoundError('Нет пользователя с таким id'));
       } else {
         next(err);
       }
@@ -78,11 +81,11 @@ module.exports.updateAvatar = (req, res, next) => {
     req.user._id,
     { avatar },
   )
-    .orFail(new Error('Not found'))
+    .orFail(new NotFoundError('Нет пользователя с таким id'))
     .then((userData) => res.send(userData))
     .catch((err) => {
       if (err.message === 'Not found') {
-        new Error('Нет пользователя с таким id');
+        next(new NotFoundError('Нет пользователя с таким id'));
       } else {
         next(err);
       }
@@ -116,14 +119,14 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findById(_id)
     .then((user) => {
       if (user === null) {
-        new Error('Нет пользователя с таким id');
+        throw new NotFoundError('Нет пользователя с таким id');
       } else {
         res.send(user);
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        new Error('Ошибочный формат id');
+        next(new BadRequestError('Ошибочный формат id'));
       }
       next(err);
     });

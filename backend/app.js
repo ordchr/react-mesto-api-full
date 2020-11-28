@@ -18,6 +18,7 @@ const { login, createUser } = require('./controllers/users');
 const { PORT = 9001 } = process.env;
 
 const { COOKIE_SECRET } = process.env;
+const { NotFoundError } = require('./modules/exceptions');
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -77,29 +78,16 @@ app.use(cookieParser(COOKIE_SECRET));
 app.use('/api/users', users);
 app.use('/api/cards', cards);
 app.use((req, res, next) => {
-  next(new Error('404 Not found'));
+  next(new NotFoundError('404 Not found'));
 });
 
 app.use(errorLogger);
 
 app.use(errors());
 app.use((err, req, res, next) => {
-  if (
-    err.message.includes('validation failed') || err.message === 'Ошибочный формат id'
-  ) {
-    res.status(400);
-  } else if (err.message === 'Not owner for card') {
-    res.status(403);
-  } else if (
-    err.message === '404 Not found' || err.message === 'Нет пользователя с таким id'
-  ) {
-    res.status(404);
-  } else if (err.message === 'Такой email уже зарегистрирован') {
-    res.status(409);
-  } else {
-    res.status(500);
-  }
-  res.send({ message: err.message });
+  const statusCode = err.statusCode || 500;
+  const message = statusCode === 500 ? 'Internal server error' : err.message;
+  res.status(statusCode).send({ message });
   next();
 });
 

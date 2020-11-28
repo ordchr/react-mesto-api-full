@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const { BadPermitionsError } = require('../modules/exceptions');
 
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
@@ -22,7 +23,7 @@ module.exports.deleteCard = (req, res, next) => {
   Card.findOneAndDelete({ _id: req.card._id, owner: req.user._id })
     .then((card) => {
       if (!card) {
-        next(new Error('Not owner for card'));
+        next(new BadPermitionsError('Нельзя удалить карточку другого пользователя'));
       } else {
         res.send(card);
       }
