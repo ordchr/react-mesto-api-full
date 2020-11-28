@@ -22,7 +22,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
-        res.status(409).send({ message: 'Такой email уже зарегистрирован' });
+        new Error('Такой email уже зарегистрирован');
       } else {
         next(err);
       }
@@ -40,14 +40,14 @@ module.exports.getUser = (req, res, next) => {
   User.findById(id)
     .then((user) => {
       if (user === null) {
-        res.status(404).send({ message: 'Нет пользователя с таким id' });
+        new Error('Нет пользователя с таким id');
       } else {
         res.send(user);
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Ошибочный формат id' });
+        new Error('Ошибочный формат id');
       }
       next(err);
     });
@@ -64,7 +64,7 @@ module.exports.updateProfile = (req, res, next) => {
     .then((userData) => res.send(userData))
     .catch((err) => {
       if (err.message === 'Not found') {
-        res.status(404).send({ message: 'Нет пользователя с таким id' });
+        new Error('Нет пользователя с таким id');
       } else {
         next(err);
       }
@@ -82,7 +82,7 @@ module.exports.updateAvatar = (req, res, next) => {
     .then((userData) => res.send(userData))
     .catch((err) => {
       if (err.message === 'Not found') {
-        res.status(404).send({ message: 'Нет пользователя с таким id' });
+        new Error('Нет пользователя с таким id');
       } else {
         next(err);
       }
@@ -116,14 +116,14 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findById(_id)
     .then((user) => {
       if (user === null) {
-        res.status(404).send({ message: 'Нет пользователя с таким id' });
+        new Error('Нет пользователя с таким id');
       } else {
         res.send(user);
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Ошибочный формат id' });
+        new Error('Ошибочный формат id');
       }
       next(err);
     });

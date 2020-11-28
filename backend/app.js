@@ -84,10 +84,16 @@ app.use(errorLogger);
 
 app.use(errors());
 app.use((err, req, res, next) => {
-  if (err.message.includes('validation failed')) {
+  if (
+    err.message.includes('validation failed') || err.message === 'Ошибочный формат id'
+  ) {
     res.status(400);
-  } else if (err.message === '404 Not found') {
+  } else if (
+    err.message === '404 Not found' || err.message === 'Нет пользователя с таким id'
+  ) {
     res.status(404);
+  } else if (err.message === 'Такой email уже зарегистрирован') {
+    res.status(409);
   } else {
     res.status(500);
   }
