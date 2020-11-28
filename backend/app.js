@@ -88,6 +88,8 @@ app.use((err, req, res, next) => {
     err.message.includes('validation failed') || err.message === 'Ошибочный формат id'
   ) {
     res.status(400);
+  } else if (err.message === 'Not owner for card') {
+    res.status(403);
   } else if (
     err.message === '404 Not found' || err.message === 'Нет пользователя с таким id'
   ) {
