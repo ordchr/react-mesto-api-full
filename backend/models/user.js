@@ -53,6 +53,11 @@ userSchema.pre('save', function (next) {
     .catch((err) => next(err));
 });
 
+userSchema.pre('findOneAndUpdate', function (next) {
+  this.options.runValidators = true;
+  next();
+});
+
 /* eslint func-names: ["error", "never"] */
 userSchema.statics.findUserByCredentials = function ({ email, password }) {
   return this.findOne({ email }).select('+password')
