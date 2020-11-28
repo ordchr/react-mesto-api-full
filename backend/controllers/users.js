@@ -59,7 +59,6 @@ module.exports.updateProfile = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, about },
-    { new: true },
   )
     .orFail(new Error('Not found'))
     .then((userData) => res.send(userData))
@@ -78,7 +77,6 @@ module.exports.updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar },
-    { new: true },
   )
     .orFail(new Error('Not found'))
     .then((userData) => res.send(userData))
