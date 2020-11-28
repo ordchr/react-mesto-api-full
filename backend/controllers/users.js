@@ -14,7 +14,7 @@ module.exports.createUser = (req, res, next) => {
     name, about, avatar, email, password,
   })
     .then(({
-      /* eslint no-shadow: ["error", { "hoist": "done" }] */
+      /* eslint no-shadow: 0 */
       name, about, avatar, email,
     }) => res.send({
       data: {
@@ -38,10 +38,8 @@ module.exports.getUsers = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
   const { id } = req.params;
-  console.log(id);
   User.findById(id)
     .then((user) => {
-      console.log(123);
       if (user === null) {
         throw new NotFoundError('Нет пользователя с таким id');
       } else {
