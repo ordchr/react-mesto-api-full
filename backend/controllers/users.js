@@ -15,7 +15,13 @@ module.exports.createUser = (req, res, next) => {
       name, about, avatar, email, password: hash,
     }))
     .then((user) => res.send({ data: user }))
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).send({ message: 'Такой email уже зарегистрирован' });
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.getUsers = (req, res, next) => {
