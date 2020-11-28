@@ -76,8 +76,8 @@ app.use(auth);
 app.use(cookieParser(COOKIE_SECRET));
 app.use('/api/users', users);
 app.use('/api/cards', cards);
-app.use((req, res) => {
-  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
+app.use((req, res, next) => {
+  next(new Error('404 Not found'));
 });
 
 app.use(errorLogger);
@@ -86,6 +86,8 @@ app.use(errors());
 app.use((err, req, res, next) => {
   if (err.message.includes('validation failed')) {
     res.status(400);
+  } else if (err.message === '404 Not found') {
+    res.status(404);
   } else {
     res.status(500);
   }
