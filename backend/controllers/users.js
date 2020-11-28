@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 require('dotenv').config();
@@ -10,11 +9,17 @@ module.exports.createUser = (req, res, next) => {
     name, about, avatar, email, password,
   } = req.body;
 
-  bcrypt.hash(password, 10)
-    .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
+  User.create({
+    name, about, avatar, email, password,
+  })
+    .then(({
+      /* eslint no-shadow: ["error", { "hoist": "done" }] */
+      name, about, avatar, email,
+    }) => res.send({
+      data: {
+        name, about, avatar, email,
+      },
     }))
-    .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).send({ message: 'Такой email уже зарегистрирован' });

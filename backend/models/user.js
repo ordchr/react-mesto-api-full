@@ -43,6 +43,16 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password')) return next();
+  return bcrypt.hash(this.password, 10)
+    .then((hash) => {
+      this.password = hash;
+      next();
+    })
+    .catch((err) => next(err));
+});
+
 /* eslint func-names: ["error", "never"] */
 userSchema.statics.findUserByCredentials = function ({ email, password }) {
   return this.findOne({ email }).select('+password')
