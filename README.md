@@ -7,3 +7,16 @@ api endpoint расположен по адресу
 
 domain https://ordchr.students.nomoreparties.co
 IP 178.154.231.54
+
+# Деплой на виртуальную машину yandex cloud
+
+Для того чтобы выкатить обновления на бэкенд:
+1. зайти на сервер по ssh
+2. перейти в директорию /home/ordchr/react-mesto-api-full/backend
+3. Сделать git pull
+4. Выполнить pm2 restart all
+
+Для того, чтобы выкатить обновления на фронт:
+1. зайти на сервер по ssh
+2. перейти в директорию /home/ordchr/react-mesto-api-full/frontend
+3. Выполнить yarn build
